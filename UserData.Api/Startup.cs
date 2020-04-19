@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.Data;
+using Infrastructure.Interfaces;
+using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +32,9 @@ namespace UserData.Api
         {
             services.AddDbContext<UserDataDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+
+            services.AddSingleton<IUserService, UserService>();
+            services.AddSingleton<IExpenseService, ExpenseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

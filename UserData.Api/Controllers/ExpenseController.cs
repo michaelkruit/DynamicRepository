@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UserData.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class ExpenseController : ControllerBase
     {
         private readonly IExpenseService _expenseService;
@@ -20,7 +20,7 @@ namespace UserData.Api.Controllers
             _expenseService = expenseService;
         }
 
-        [HttpGet("int:id")]
+        [HttpGet("(id:int)")]
         public async Task<ActionResult<Expense>> GetExpense(int id, CancellationToken cancellationToken)
         {
             var expense = await _expenseService.GetExpense(id, cancellationToken);
@@ -32,7 +32,7 @@ namespace UserData.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Expense>> CreateExpense([FromBody] Expense expense, CancellationToken cancellationToken)
+        public async Task<ActionResult<Expense>> CreateExpense([FromBody]Expense expense, CancellationToken cancellationToken)
         {
             var created = await _expenseService.CreateExpense(expense, cancellationToken);
             if (created == null)
@@ -42,7 +42,7 @@ namespace UserData.Api.Controllers
             return Ok(expense);
         }
 
-        [HttpPut("int:id")]
+        [HttpPut("(id:int)")]
         public async Task<ActionResult<Expense>> UpdateExpense(int id, [FromBody]Expense expense, CancellationToken cancellationToken)
         {
             var updated = await _expenseService.UpdateExpense(id, expense, cancellationToken);
@@ -53,7 +53,7 @@ namespace UserData.Api.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("int:id")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<Expense>> DeleteExpense(int id, CancellationToken cancellationToken)
         {
             await _expenseService.DeleteExpense(id, cancellationToken);

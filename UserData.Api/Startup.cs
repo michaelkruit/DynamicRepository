@@ -33,8 +33,8 @@ namespace UserData.Api
             services.AddDbContext<UserDataDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
 
-            services.AddSingleton<IUserService, UserService>();
-            services.AddSingleton<IExpenseService, ExpenseService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IExpenseService, ExpenseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

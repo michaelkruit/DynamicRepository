@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UserData.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -23,17 +23,17 @@ namespace UserData.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> CreateUser([FromBody]User user)
+        public async Task<User> CreateUser([FromBody]User user, CancellationToken cancellationToken)
         {
-            var created = await _userService.Create(user);
+            var created = await _userService.CreateUser(user, cancellationToken);
             if(created == null)
             {
-                return BadRequest();
+                return null;
             }
-            return Ok(created);
+            return created;
         }
 
-        [HttpPut("int:id")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<User>> UpdateUser(int id, [FromBody]User user, CancellationToken cancellationToken)
         {
             var updated = await _userService.UpdateUser(id, user, cancellationToken);
@@ -44,7 +44,7 @@ namespace UserData.Api.Controllers
             return Ok(updated);
         }
 
-        [HttpGet("int:id")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<User>> GetUser(int id, CancellationToken cancellationToken)
         {
             var user = await _userService.GetUser(id, cancellationToken);
@@ -55,14 +55,14 @@ namespace UserData.Api.Controllers
             return Ok(user);                        
         }
 
-        [HttpGet("int:id/expenses")]
+        [HttpGet("{id:int}/expenses")]
         public ActionResult<IEnumerable<Expense>> GetUserExpenses(int id, CancellationToken cancellationToken)
         {
             var expenses = _expenseService.GetUserExpenses(id, cancellationToken);
             return Ok(expenses);
         }
 
-        [HttpDelete("int: id")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteUser(int id, CancellationToken cancellationToken)
         {
             await _userService.DeleteUser(id, cancellationToken);

@@ -2,10 +2,8 @@
 using Infrastructure.Data.Entities;
 using Infrastructure.Interfaces;
 using Infrastructure.Repositories;
+using Infrastructure.Validators;
 using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +12,7 @@ namespace Infrastructure.Services
     public class UserService : DynamicCrud<User>, IUserService
     {
         public UserService(UserDataDbContext dbContext)
-            :base(dbContext)
+            : base(dbContext)
         {
         }
 
